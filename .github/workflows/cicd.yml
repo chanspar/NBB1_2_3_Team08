@@ -39,12 +39,10 @@ jobs:
           utcOffset: "+09:00"
 
       - name: Generate deployment package
-        run: |
-          cd build/libs
-          zip -r ../../../deploy.zip *.jar
+        run: zip -r deploy.zip build/libs/*.jar
 
       - name: Beanstalk Deploy
-        uses: einaregilsson/beanstalk-deploy@v21
+        uses: einaregilsson/beanstalk-deploy@v22
         with:
           aws_access_key: ${{secrets.AWS_ACCESS_KEY}}
           aws_secret_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
@@ -55,4 +53,3 @@ jobs:
           deployment_package: deploy.zip
           wait_for_environment_recovery: 300
           wait_for_deployment: true
-          max_backoff_retries: 10
